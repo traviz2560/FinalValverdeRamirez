@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import datosUsuario, tareasInformacion, comentarioTarea
 import datetime
 import json
+import os
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -154,8 +155,11 @@ def descargarTareas(request,idUsuario):
 
     archivoPdf = canvas.Canvas(nombreArchivo,A4)
 
-    archivoPdf.drawImage('./django_tareas/static/logoApp.png',20, 700, width=140, height=80)
-    archivoPdf.drawImage('./django_tareas/static/logoPUCP.png',430, 700, width=140, height=80)
+    logoApp = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/logoApp.png')
+    logoPUCP = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/logoPUCP.png')
+
+    archivoPdf.drawImage(logoApp,20, 700, width=140, height=80)
+    archivoPdf.drawImage(logoPUCP,430, 700, width=140, height=80)
     
     archivoPdf.setFont('Helvetica-Bold',25)
     archivoPdf.drawCentredString(297.5,730,'Reporte de tareas')
@@ -235,7 +239,7 @@ def publicarComentario(request):
         'resp':'ok'
     })
 
-def descargarReporteUsuarios(request):
+def descargarReporteUsuarios(request,idUsuario):
     """
     PREGUNTA 1
     En esta funcion debe generar un pdf con utilizando la libreria reportlab
@@ -256,6 +260,57 @@ def descargarReporteUsuarios(request):
     Tipo de usuarios que genera el reporte
     
     """
+    # Datos
+    usuarioInformacion = User.objects.get(id=idUsuario)
+    usuarios = User.objects.order_by('id')
     nombreArchivo = 'reporteUsuarios.pdf'
+    archivoPdf = canvas.Canvas(nombreArchivo,A4)
+
+    # Cabecera
+    logoApp = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/logoApp.png')
+    logoPUCP = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/logoPUCP.png')
+
+    archivoPdf.drawImage(logoApp,20, 700, width=140, height=80)
+    archivoPdf.drawImage(logoPUCP,430, 700, width=140, height=80)
+    
+    archivoPdf.setFont('Helvetica-Bold',25)
+    archivoPdf.drawCentredString(297.5,730,'Reporte de Usuarios')
+
+    archivoPdf.setFont('Helvetica-Bold',12)
+    archivoPdf.drawString(40,620, 'Fecha de creacion del reporte')
+    archivoPdf.drawString(40,605, 'Cantidad de usuarios')
+    archivoPdf.drawString(40,590, 'Usuario que genera el reporte')
+    archivoPdf.drawString(40,575, 'Tipo de usuario que genera el reporte')
+
+    archivoPdf.drawString(260,620, ':')
+    archivoPdf.drawString(260,605, ':')
+    archivoPdf.drawString(260,590, ':')
+    archivoPdf.drawString(260,575, ':')
+
+    archivoPdf.setFont('Helvetica',12)
+    archivoPdf.drawString(265,620, f'{datetime.datetime.now().strftime("%d-%m-%y")}')
+    archivoPdf.drawString(265,605, f'{User.objects.count()}')
+    archivoPdf.drawString(265,590, f'{usuarioInformacion.username}')
+    archivoPdf.drawString(265,575, f'{usuarioInformacion.datosusuario.tipoUsuario}')
+
+    # Informacion
+    lista_x = [40,550]
+    lista_y = [500,560]
+    archivoPdf.setStrokeColorRGB(0,0,1)
+
+    for usuario in usuarios:
+        archivoPdf.grid(lista_x,lista_y)
+        archivoPdf.setFont('Helvetica',12)
+        archivoPdf.drawString(lista_x[0] + 20, lista_y[1]-15, f'Usuario: {usuario.first_name} {usuario.last_name}')
+        archivoPdf.drawString(lista_x[0] + 20, lista_y[1]-35, f'{usuario.username}')
+        archivoPdf.drawString(lista_x[0] + 120, lista_y[1]-35, f'{usuario.datosusuario.fechaIngreso.strftime("%d-%m-%Y")}')
+        archivoPdf.drawString(lista_x[0] + 220, lista_y[1]-35, f'{usuario.datosusuario.nroCelular}')
+        tareasUsuario = tareasInformacion.objects.filter(usuarioRelacionado=usuario)
+        archivoPdf.drawString(lista_x[0] + 20, lista_y[1]-55, f'Cantidad de tareas: {tareasUsuario.count()}')
+        archivoPdf.drawString(lista_x[0] + 170, lista_y[1]-55, f'{usuario.datosusuario.tipoUsuario}')
+        lista_y[0] = lista_y[0] - 80
+        lista_y[1] = lista_y[1] - 80
+
+    archivoPdf.save()
     reporteUsuarios=open(nombreArchivo,'rb')
     return FileResponse(reporteUsuarios,as_attachment=True)
