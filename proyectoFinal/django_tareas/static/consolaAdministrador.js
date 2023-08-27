@@ -31,7 +31,6 @@ function editarUsuario(idEditar)
         let perfilUsuarioDetalle = document.getElementById('perfilUsuarioDetalle')
         let cargaId = document.getElementById('cargaId')
 
-        cargaId.style.display = "block"
         cargaId.innerHTML = data.idUsuario
         nombreUsuarioDetalle.value = data.nombreUsuario
         apellidoUsuarioDetalle.value = data.apellidoUsuario
@@ -40,8 +39,6 @@ function editarUsuario(idEditar)
         tipoUsuarioDetalle.value = data.tipoUsuario
         nroCelularDetalle.value = data.nroCelularUsuario
         perfilUsuarioDetalle.innerHTML = data.perfilUsuario
-
-
     })
 }
 
@@ -54,4 +51,45 @@ function actualizarUsuario()
     H1 cuyo id es cargaId. Con los datos capturados postearlos en la base de datos
     y actualizar la informacion del usuario
     */
+    let profesionUsuarioDetalle = document.getElementById('profesionUsuarioDetalle')
+    let nroCelularDetalle = document.getElementById('nroCelularDetalle')
+    let cargaId = document.getElementById('cargaId')
+
+    datos = {
+        'profesion':profesionUsuarioDetalle.value,
+        'nroCelular':nroCelularDetalle.value,
+        'idUsuario':cargaId.innerHTML
+    }
+
+    fetch('/actualizarUsuario',{
+        method:"POST",
+        headers:{
+            "X-Requested-With":"XMLHttpRequest",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body:JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+    })
+}
+
+function getCookie(name)
+{
+    let cookieValue = null;
+    if(document.cookie && document.cookie !== "")
+    {
+        const cookies = document.cookie.split(';');
+        for(let i = 0; i < cookies.length; i++)
+        {
+            const cookie = cookies[i].trim();
+            if(cookie.substring(0,name.length + 1) === (name + "="))
+            {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue 
 }
