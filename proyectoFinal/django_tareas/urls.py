@@ -20,4 +20,5 @@ urlpatterns = [
     path('descargarReporteUsuarios',views.descargarReporteUsuarios,name='descargarReporteUsuarios'),
     path('conseguirInfoUsuario',views.conseguirInfoUsuario,name='conseguirInfoUsuario'),
     path('actualizarUsuario',views.actualizarUsuario,name='actualizarUsuario'),
+    path('actualizarTarea',views.actualizarTarea,name='actualizarTarea'),
 ]

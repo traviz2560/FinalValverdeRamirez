@@ -342,3 +342,15 @@ def actualizarUsuario(request):
     return JsonResponse({
         'resp':'ok'
     })
+
+def actualizarTarea(request):
+    idTarea = request.GET.get('idTarea')
+    tarea = tareasInformacion.objects.get(id=idTarea)
+    datos = json.load(request)
+    estadoTarea = datos.get('estadoTarea')
+    
+    tarea.estadoTarea = estadoTarea
+    tarea.save()
+    return JsonResponse({
+        'resp':'ok'
+    })
