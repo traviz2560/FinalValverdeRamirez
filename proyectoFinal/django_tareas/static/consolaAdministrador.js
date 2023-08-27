@@ -1,6 +1,5 @@
 function editarUsuario(idEditar)
 {
-    console.log(idEditar)
     /*
     PREGUNTA 3
     Capturar informacion del usuario desde base de datos y llenar
@@ -20,6 +19,30 @@ function editarUsuario(idEditar)
     Colocarlos como solo lectura (propiedad readonly en el tag HTML)
     
     */
+    fetch(`/conseguirInfoUsuario?idEditar=${idEditar}`)
+    .then(response => response.json())
+    .then(data => {
+        let nombreUsuarioDetalle = document.getElementById('nombreUsuarioDetalle')
+        let apellidoUsuarioDetalle = document.getElementById('apellidoUsuarioDetalle')
+        let profesionUsuarioDetalle = document.getElementById('profesionUsuarioDetalle')
+        let emailUsuarioDetalle = document.getElementById('emailUsuarioDetalle')
+        let tipoUsuarioDetalle = document.getElementById('tipoUsuarioDetalle')
+        let nroCelularDetalle = document.getElementById('nroCelularDetalle')
+        let perfilUsuarioDetalle = document.getElementById('perfilUsuarioDetalle')
+        let cargaId = document.getElementById('cargaId')
+
+        cargaId.style.display = "block"
+        cargaId.innerHTML = data.idUsuario
+        nombreUsuarioDetalle.value = data.nombreUsuario
+        apellidoUsuarioDetalle.value = data.apellidoUsuario
+        profesionUsuarioDetalle.value = data.profesionUsuario
+        emailUsuarioDetalle.value = data.emailUsuario
+        tipoUsuarioDetalle.value = data.tipoUsuario
+        nroCelularDetalle.value = data.nroCelularUsuario
+        perfilUsuarioDetalle.innerHTML = data.perfilUsuario
+
+
+    })
 }
 
 function actualizarUsuario()

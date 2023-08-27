@@ -239,7 +239,7 @@ def publicarComentario(request):
         'resp':'ok'
     })
 
-def descargarReporteUsuarios(request,idUsuario):
+def descargarReporteUsuarios(request):
     """
     PREGUNTA 1
     En esta funcion debe generar un pdf con utilizando la libreria reportlab
@@ -261,7 +261,7 @@ def descargarReporteUsuarios(request,idUsuario):
     
     """
     # Datos
-    usuarioInformacion = User.objects.get(id=idUsuario)
+    usuarioInformacion = request.user
     usuarios = User.objects.order_by('id')
     nombreArchivo = 'reporteUsuarios.pdf'
     archivoPdf = canvas.Canvas(nombreArchivo,A4)
@@ -314,3 +314,17 @@ def descargarReporteUsuarios(request,idUsuario):
     archivoPdf.save()
     reporteUsuarios=open(nombreArchivo,'rb')
     return FileResponse(reporteUsuarios,as_attachment=True)
+
+def conseguirInfoUsuario(request):
+    idEditar = request.GET.get('idEditar')
+    usuario = User.objects.get(id=idEditar)
+    return JsonResponse({
+        'nombreUsuario':usuario.first_name,
+        'apellidoUsuario':usuario.last_name,
+        'profesionUsuario':usuario.datosusuario.profesionUsuario,
+        'emailUsuario':usuario.email,
+        'tipoUsuario':usuario.datosusuario.tipoUsuario,
+        'nroCelularUsuario':usuario.datosusuario.nroCelular,
+        'idUsuario':str(idEditar),
+        'perfilUsuario': usuario.datosusuario.perfilUsuario,
+    })

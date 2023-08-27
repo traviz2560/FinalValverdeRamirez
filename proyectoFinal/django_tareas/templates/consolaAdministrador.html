@@ -38,7 +38,7 @@
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoUsuario"><i class="fa-solid fa-user-plus"></i> Agregar usuario</button>
                 </div>
                 <div class="col-2">
-                    <a class="btn btn-success" href="{% url 'django_tareas:descargarReporteUsuarios' user.id %}"><i class="fa-solid fa-download"></i> Descargar</a>
+                    <a class="btn btn-success" href="{% url 'django_tareas:descargarReporteUsuarios' %}"><i class="fa-solid fa-download"></i> Descargar</a>
                 </div>
             </div>
         </div>
@@ -161,48 +161,38 @@
                 -->
                 <div class="row form-group justify-content-around mb-3">
                     <div class="col-5">
-                        <label>Username :</label>
-                        <input class="form-control" type="text" name="usernameUsuario" required readonly>
-                    </div>
-                    <div class="col-5">
-                        <label>Password :</label>
-                        <input class="form-control" type="password" name="contraUsuario" required readonly>
-                    </div>
-                </div>
-                <div class="row form-group justify-content-around mb-3">
-                    <div class="col-5">
                         <label>Nombre :</label>
-                        <input class="form-control" type="text" name="nombreUsuario" required readonly>
+                        <input class="form-control" type="text" name="nombreUsuario" readonly id="nombreUsuarioDetalle">
                     </div>
                     <div class="col-5">
                         <label>Apellido :</label>
-                        <input class="form-control" type="text" name="apellidoUsuario" required readonly>
+                        <input class="form-control" type="text" name="apellidoUsuario" readonly id="apellidoUsuarioDetalle">
                     </div>
                 </div>
                 <div class="row form-group justify-content-around mb-3">
                     <div class="col-5">
                         <label>Profesion :</label>
-                        <input class="form-control" type="text" name="profesionUsuario" required>
+                        <input class="form-control" type="text" name="profesionUsuario" id="profesionUsuarioDetalle">
                     </div>
                     <div class="col-5">
                         <label>Email :</label>
-                        <input class="form-control" type="email" name="emailUsuario" required readonly>
+                        <input class="form-control" type="email" name="emailUsuario" readonly id="emailUsuarioDetalle">
                     </div>
                 </div>
                 <div class="row form-group justify-content-around mb-3">
                     <div class="col-5">
                         <label>Tipo de usuario :</label>
-                        <input class="form-control" type="text" name="tipoUsuario" required readonly>
+                        <input class="form-control" type="text" name="tipoUsuario" readonly id="tipoUsuarioDetalle">
                     </div>
                     <div class="col-5">
                         <label>Nro de celular :</label>
-                        <input class="form-control" type="text" name="nroCelular" required>
+                        <input class="form-control" type="text" name="nroCelular" id="nroCelularDetalle">
                     </div>
                 </div>
                 <div class="row form-group justify-content-around mb-3">
                     <div class="col-11">
                         <label>Perfil del usuario :</label>
-                        <textarea class="form-control" type="text" name="perfilUsuario" rows="4" required readonly></textarea>
+                        <textarea class="form-control" type="text" name="perfilUsuario" rows="4" readonly id="perfilUsuarioDetalle"></textarea>
                     </div>
                 </div>
             </div>
