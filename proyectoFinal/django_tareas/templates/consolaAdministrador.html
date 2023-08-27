@@ -63,7 +63,7 @@
                                 <td>{{ usuario.datosusuario.nroCelular }}</td>
                                 <td>{{ usuario.datosusuario.fechaIngreso }}</td>
                                 <td class="text-center"><a class="btn btn-info" href="{% url 'django_tareas:verUsuario' usuario.id %}"><i class="fa-solid fa-eye"></i></a></td>
-                                <td class="text-center"><button data-bs-toggle="modal" data-bs-target="#editarUsuario" class="btn btn-warning" id="editar{{ usuario.id }}" onclick="editarUsuario(this.id)"><i class="fa-solid fa-edit"></i></button></td>
+                                <td class="text-center"><button data-bs-toggle="modal" data-bs-target="#editarUsuario" class="btn btn-warning" id="{{ usuario.id }}" onclick="editarUsuario(this.id)"><i class="fa-solid fa-edit"></i></button></td>
                                 <td class="text-center"><a class="btn btn-danger" href="{% url 'django_tareas:eliminarUsuario' usuario.id %}"><i class="fa-solid fa-trash"></i></a></td>
                             </tr>
                             {% endfor %}
@@ -150,16 +150,61 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 id="cargaId" style="display: none;"></h1>
-                <h5 class="modal-title">Crear nuevo usuario</h5>
+                <h5 class="modal-title">Editar usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Editar usuario
                 <!--
                     PREGUNTA 2
                     Crear los inputs necesarios para poder cargar la informacion
                     del usuario, indicar los label's de los campos apropiadamente
                 -->
+                <div class="row form-group justify-content-around mb-3">
+                    <div class="col-5">
+                        <label>Username :</label>
+                        <input class="form-control" type="text" name="usernameUsuario" required readonly>
+                    </div>
+                    <div class="col-5">
+                        <label>Password :</label>
+                        <input class="form-control" type="password" name="contraUsuario" required readonly>
+                    </div>
+                </div>
+                <div class="row form-group justify-content-around mb-3">
+                    <div class="col-5">
+                        <label>Nombre :</label>
+                        <input class="form-control" type="text" name="nombreUsuario" required readonly>
+                    </div>
+                    <div class="col-5">
+                        <label>Apellido :</label>
+                        <input class="form-control" type="text" name="apellidoUsuario" required readonly>
+                    </div>
+                </div>
+                <div class="row form-group justify-content-around mb-3">
+                    <div class="col-5">
+                        <label>Profesion :</label>
+                        <input class="form-control" type="text" name="profesionUsuario" required>
+                    </div>
+                    <div class="col-5">
+                        <label>Email :</label>
+                        <input class="form-control" type="email" name="emailUsuario" required readonly>
+                    </div>
+                </div>
+                <div class="row form-group justify-content-around mb-3">
+                    <div class="col-5">
+                        <label>Tipo de usuario :</label>
+                        <input class="form-control" type="text" name="tipoUsuario" required readonly>
+                    </div>
+                    <div class="col-5">
+                        <label>Nro de celular :</label>
+                        <input class="form-control" type="text" name="nroCelular" required>
+                    </div>
+                </div>
+                <div class="row form-group justify-content-around mb-3">
+                    <div class="col-11">
+                        <label>Perfil del usuario :</label>
+                        <textarea class="form-control" type="text" name="perfilUsuario" rows="4" required readonly></textarea>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
